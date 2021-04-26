@@ -39,6 +39,14 @@
 	</dependencies>
 
 	<build>
+		<!-- Maven resource filtering -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -47,4 +55,23 @@
 		</plugins>
 	</build>
 
+	<!-- Maven profiles -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+			<activation> <!-- set as default -->
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>release</id>
+			<properties>
+				<activatedProperties>release</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
 </project>
