@@ -56,6 +56,13 @@
 			<version>2.5.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.wololo/jts2geojson -->
+		<dependency>
+			<groupId>org.wololo</groupId>
+			<artifactId>jts2geojson</artifactId>
+			<version>0.14.1</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter -->
 		<dependency>
 			<groupId>io.springfox</groupId>
