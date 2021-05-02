@@ -2,10 +2,12 @@ package com.tbtk.map.model;
 
 import com.sun.istack.NotNull;
 import org.locationtech.jts.geom.Geometry;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@Entity(name ="geopoint")
+@Entity(name = "geopoint")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,14 @@ public class Location {
     @NotNull
     @Column(name = "geom")
     private Geometry geometry;
+
+    @ManyToOne
+    @JoinTable(
+            name = "user_geopoint",
+            joinColumns = @JoinColumn(name = "geopoint_id"),
+            inverseJoinColumns = @JoinColumn(name = "users_id"))
+    private User owner;
+
 
     public Location() {
     }
@@ -46,5 +56,13 @@ public class Location {
 
     public void setGeometry(Geometry geom) {
         this.geometry = geom;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }
