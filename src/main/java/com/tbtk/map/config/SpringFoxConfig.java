@@ -11,6 +11,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import static springfox.documentation.builders.PathSelectors.regex;
 
+/**
+ * Configuration for Swagger UI and API documentation.
+ * <p>
+ * Documentation is available on http://localhost:8080/swagger-ui/#
+ * <p>
+ * https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
+ */
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {
@@ -19,7 +26,7 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.tbtk.map"))
+                .apis(RequestHandlerSelectors.basePackage("com.tbtk.map.controller"))
                 .paths(regex(".*?"))
                 .build();
     }
