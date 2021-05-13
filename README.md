@@ -1,5 +1,6 @@
 # TbtkMap
 ![Java CI](https://github.com/eneskacan/TbtkMap/actions/workflows/java.yml/badge.svg)
+![Node.js CI](https://github.com/eneskacan/TbtkMap/actions/workflows/node.yml/badge.svg)
 ![Deploy App to Azure](https://github.com/eneskacan/TbtkMap/actions/workflows/deploy.yml/badge.svg)
 
 A simple web application that allows users to save locations on the world map. See a working demo [here](https://tbtkmap.azurewebsites.net/).
