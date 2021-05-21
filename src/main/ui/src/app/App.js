@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import {Link} from "react-router-dom";
 
 function App() {
   return (
@@ -15,8 +16,8 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
         </a>
+        <Link to="/map" className="btn btn-primary">Test Map</Link>
       </header>
     </div>
   );
