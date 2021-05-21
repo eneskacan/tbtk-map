@@ -4,16 +4,15 @@ import com.tbtk.map.model.Location;
 import com.tbtk.map.model.User;
 import com.tbtk.map.repository.LocationRepository;
 import com.tbtk.map.repository.UserRepository;
-import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wololo.geojson.FeatureCollection;
 import org.wololo.geojson.Feature;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
-import static com.tbtk.map.helper.GeometryHelper.convertGeoJsonToJtsGeometry;
 import static com.tbtk.map.helper.GeometryHelper.convertJtsGeometryToGeoJson;
 
 @Service
@@ -34,13 +33,12 @@ public class LocationService {
     }
 
     public FeatureCollection listLocationsByUser(Long userId) {
-        User user = userRepository.getOne(userId);
+        User user = userRepository.findById(userId).get();
         Feature[] features = mapEntityListToFeatures(user.getLocations());
         return new FeatureCollection(features);
     }
 
-    public Long createLocation(Long userId, Feature feature) {
-        Location location = convertFeatureToEntity(feature);
+    public Long createLocation(Long userId, Location location) {
         User owner = userRepository.getOne(userId);
         location.setOwner(owner);
         Long locationId = locationRepository.saveAndFlush(location).getId();
@@ -69,7 +67,9 @@ public class LocationService {
 
     private Feature convertEntityToFeature(Location entity) {
         Long id = entity.getId();
-        org.wololo.geojson.Geometry geometry = convertJtsGeometryToGeoJson(entity.getGeometry());
+        org.wololo.geojson.Geometry geometry = convertJtsGeometryToGeoJson(
+                new GeometryFactory().createPoint(new Coordinate(entity.getLatitude(), entity.getLongitude()))
+        );
 
         Map<String, Object> properties = new HashMap<>();
         Arrays.stream(Location.class.getDeclaredFields())
@@ -77,7 +77,7 @@ public class LocationService {
                 .forEach(field -> {
                     try {
                         field.setAccessible(true);
-                        if (field.getType() != Geometry.class && !field.getName().equals("id") && !field.getName().equals("user")) {
+                        if (!field.getName().equals("id") && !field.getName().equals("latitude") && !field.getName().equals("longitude")) {
                             properties.put(field.getName(), field.get(entity));
                         }
                     } catch (IllegalAccessException e) {
@@ -86,23 +86,5 @@ public class LocationService {
                 });
 
         return new Feature(id, geometry, properties);
-    }
-
-    private Location convertFeatureToEntity(Feature feature) {
-        Location entity = new Location();
-        Map<String, Object> propertiesList = feature.getProperties();
-        Arrays.stream(Location.class.getDeclaredFields())
-                .filter(i -> !i.isSynthetic())
-                .forEach(i -> {
-                    try {
-                        Field f = Location.class.getDeclaredField(i.getName());
-                        f.setAccessible(true);
-                        f.set(entity, propertiesList.getOrDefault(i.getName(), null));
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        //log.warn(e.getMessage());
-                    }
-                });
-        entity.setGeometry(convertGeoJsonToJtsGeometry(feature.getGeometry()));
-        return entity;
     }
 }

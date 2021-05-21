@@ -50,10 +50,12 @@ public class LocationServiceTest {
         for(int i = 0; i < 5; i++) {
             Long id = (long) i;
             String name = "Location " + i;
-            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(10 * i, 10 * i));
+            double latitude = 10 * i;
+            double longitude = 10 * i;
             User owner = new User();
             owner.setId((long) i);
 
+            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(latitude, longitude));
             org.wololo.geojson.Geometry geoJson = new GeoJSONWriter().write(geometry);
             Map<String, Object> properties = new HashMap<>();
             properties.put("name", name);
@@ -64,7 +66,8 @@ public class LocationServiceTest {
             Location location = new Location();
             location.setId(id);
             location.setName(name);
-            location.setGeometry(geometry);
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
             location.setOwner(owner);
 
             locations.add(location);
@@ -97,8 +100,10 @@ public class LocationServiceTest {
         for(int i = 0; i < 5; i++) {
             Long id = (long) i;
             String name = "Location " + i;
-            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(10 * i, 10 * i));
+            double latitude = 10 * i;
+            double longitude = 10 * i;
 
+            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(latitude, longitude));
             org.wololo.geojson.Geometry geoJson = new GeoJSONWriter().write(geometry);
             Map<String, Object> properties = new HashMap<>();
             properties.put("name", name);
@@ -109,7 +114,8 @@ public class LocationServiceTest {
             Location location = new Location();
             location.setId(id);
             location.setName(name);
-            location.setGeometry(geometry);
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
             location.setOwner(user);
 
             locations.add(location);
@@ -119,7 +125,7 @@ public class LocationServiceTest {
         FeatureCollection featureCollection = new FeatureCollection(features);
 
         // mock
-        when(userRepository.getOne(userId)).thenReturn(user);
+        when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
 
         // when
         FeatureCollection result = locationService.listLocationsByUser(userId);
@@ -134,28 +140,28 @@ public class LocationServiceTest {
         // given
         Long id = 1L;
         String name = "Location 1";
-        Geometry geometry = new GeometryFactory().createPoint(new Coordinate(35, 32));
+        double latitude = 35;
+        double longitude = 17;
         User owner = new User();
         owner.setId(1L);
 
-        org.wololo.geojson.Geometry geoJson = new GeoJSONWriter().write(geometry);
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("name", name);
-        properties.put("owner", owner);
-
-        Feature feature = new Feature(id, geoJson, properties);
+        Location location = new Location();
+        location.setName(name);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        location.setOwner(owner);
 
         // mock
         when(userRepository.getOne(id)).thenReturn(owner);
         when(locationRepository.saveAndFlush(any(Location.class)))
                 .thenAnswer((Answer<Location>) i -> {
-                    Location location = (Location) i.getArguments()[0];
-                    location.setId(id);
-                    return location;
+                    Location answer = (Location) i.getArguments()[0];
+                    answer.setId(id);
+                    return answer;
                 });
 
         // when
-        Long result = locationService.createLocation(id, feature);
+        Long result = locationService.createLocation(id, location);
 
         // expect
         assertThat(result).isEqualTo(id);
@@ -169,20 +175,23 @@ public class LocationServiceTest {
         Long id = 1L;
         String name = "Location 1";
         String updatedName = "Location 2";
-        Geometry geometry = new GeometryFactory().createPoint(new Coordinate(43, 17));
+        double latitude = 43;
+        double longitude = 17;
         User owner = new User();
         owner.setId(1L);
 
         Location location = new Location();
         location.setId(id);
         location.setName(name);
-        location.setGeometry(geometry);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
         location.setOwner(owner);
 
         Location updatedLocation = new Location();
         updatedLocation.setId(id);
         updatedLocation.setName(updatedName);
-        updatedLocation.setGeometry(geometry);
+        updatedLocation.setLatitude(latitude);
+        updatedLocation.setLongitude(longitude);
         updatedLocation.setOwner(owner);
 
         // mock
