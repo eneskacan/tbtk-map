@@ -1,18 +1,23 @@
 CREATE EXTENSION postgis;
 
+DROP TABLE IF EXISTS user_location;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS location;
+
 CREATE TABLE users (
-	users_id SERIAL PRIMARY KEY,
-	name VARCHAR ( 250 ) UNIQUE NOT NULL,
-	pass VARCHAR ( 250 ) NOT NULL
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(250) UNIQUE NOT NULL,
+    pass VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE geopoint (
-	geopoint_id SERIAL PRIMARY KEY,
-	name VARCHAR ( 250 ) NOT NULL,
-	geom GEOMETRY NOT NULL
+CREATE TABLE location (
+    id        SERIAL PRIMARY KEY,
+    name      VARCHAR(250) NOT NULL,
+    latitude  DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL
 );
 
-CREATE TABLE user_geopoint (
-	users_id INTEGER NOT NULL REFERENCES users (users_id),
-	geopoint_id INTEGER NOT NULL REFERENCES geopoint (geopoint_id)
+CREATE TABLE user_location (
+    user_id     INTEGER NOT NULL REFERENCES users (id),
+    location_id INTEGER NOT NULL REFERENCES location (id)
 );
