@@ -1,18 +1,17 @@
 package com.tbtk.map.model;
 
 import com.sun.istack.NotNull;
-import org.locationtech.jts.geom.Geometry;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@Entity(name = "geopoint")
+@Entity(name = "location")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
-    @Column(name = "geopoint_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -20,16 +19,19 @@ public class Location {
     private String name;
 
     @NotNull
-    @Column(name = "geom")
-    private Geometry geometry;
+    @Column(name = "latitude")
+    private double latitude;
+
+    @NotNull
+    @Column(name = "longitude")
+    private double longitude;
 
     @ManyToOne
     @JoinTable(
-            name = "user_geopoint",
-            joinColumns = @JoinColumn(name = "geopoint_id"),
-            inverseJoinColumns = @JoinColumn(name = "users_id"))
+            name = "user_location",
+            joinColumns = @JoinColumn(name = "location_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User owner;
-
 
     public Location() {
     }
@@ -50,12 +52,20 @@ public class Location {
         this.name = name;
     }
 
-    public Geometry getGeometry() {
-        return this.geometry;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setGeometry(Geometry geom) {
-        this.geometry = geom;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public User getOwner() {

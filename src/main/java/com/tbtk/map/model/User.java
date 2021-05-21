@@ -13,7 +13,7 @@ public class User {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "users_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
