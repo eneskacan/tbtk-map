@@ -50,12 +50,12 @@ public class LocationServiceTest {
         for(int i = 0; i < 5; i++) {
             Long id = (long) i;
             String name = "Location " + i;
-            double latitude = 10 * i;
-            double longitude = 10 * i;
+            double latitude = 3 * i;
+            double longitude = 7 * i;
             User owner = new User();
             owner.setId((long) i);
 
-            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(latitude, longitude));
+            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(longitude, latitude));
             org.wololo.geojson.Geometry geoJson = new GeoJSONWriter().write(geometry);
             Map<String, Object> properties = new HashMap<>();
             properties.put("name", name);
@@ -100,8 +100,8 @@ public class LocationServiceTest {
         for(int i = 0; i < 5; i++) {
             Long id = (long) i;
             String name = "Location " + i;
-            double latitude = 10 * i;
-            double longitude = 10 * i;
+            double latitude = 3 * i;
+            double longitude = 7 * i;
 
             Geometry geometry = new GeometryFactory().createPoint(new Coordinate(latitude, longitude));
             org.wololo.geojson.Geometry geoJson = new GeoJSONWriter().write(geometry);

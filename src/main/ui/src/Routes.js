@@ -8,12 +8,8 @@ function Routes() {
     return (
         <Router>
             <Switch>
-                <Route path="/map">
-                    <Map />
-                </Route>
-                <Route path="/">
-                    <App />
-                </Route>
+                <Route path = "/" exact component = {App}></Route>
+                <Route path = "/map" exact component = {Map}></Route>
             </Switch>
         </Router>
     );

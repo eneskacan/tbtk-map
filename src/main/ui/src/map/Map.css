@@ -14,3 +14,13 @@
     margin: 12px;
     border-radius: 4px;
 }
+
+.styles-toolbar {
+    font-family: monospace;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 12px;
+    border-radius: 4px;
+}

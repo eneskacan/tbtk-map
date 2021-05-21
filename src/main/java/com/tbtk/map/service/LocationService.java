@@ -68,7 +68,7 @@ public class LocationService {
     private Feature convertEntityToFeature(Location entity) {
         Long id = entity.getId();
         org.wololo.geojson.Geometry geometry = convertJtsGeometryToGeoJson(
-                new GeometryFactory().createPoint(new Coordinate(entity.getLatitude(), entity.getLongitude()))
+                new GeometryFactory().createPoint(new Coordinate(entity.getLongitude(), entity.getLatitude()))
         );
 
         Map<String, Object> properties = new HashMap<>();
