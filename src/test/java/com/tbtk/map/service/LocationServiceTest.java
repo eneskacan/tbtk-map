@@ -103,7 +103,7 @@ public class LocationServiceTest {
             double latitude = 3 * i;
             double longitude = 7 * i;
 
-            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(latitude, longitude));
+            Geometry geometry = new GeometryFactory().createPoint(new Coordinate(longitude, latitude));
             org.wololo.geojson.Geometry geoJson = new GeoJSONWriter().write(geometry);
             Map<String, Object> properties = new HashMap<>();
             properties.put("name", name);
