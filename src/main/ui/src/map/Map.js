@@ -65,6 +65,8 @@ const MapBox = () => {
 
         // Clean up on unmount
         return () => map.remove();
+
+        // eslint-disable-next-line
     }, [style]);
 
     useEffect(() => {

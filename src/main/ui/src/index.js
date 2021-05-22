@@ -4,6 +4,9 @@ import './index.css';
 import Routes from './Routes';
 import reportWebVitals from './reportWebVitals';
 
+// Import the Bootstrap CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 ReactDOM.render(
   <React.StrictMode>
     <Routes />

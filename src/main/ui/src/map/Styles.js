@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {ButtonGroup, ToggleButton} from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Map style selection menu
 const Styles = (props) => {
