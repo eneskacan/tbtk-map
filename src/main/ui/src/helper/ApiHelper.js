@@ -3,7 +3,16 @@ import axios from "axios";
 /**
  * https://medium.com/swlh/react-api-call-best-practice-c78e14a7e150
  */
-class ApiHelper {
+export default class ApiHelper {
+    // Singleton structure
+    static myInstance = null;
+    static getInstance() {
+        if(ApiHelper.myInstance == null) {
+            ApiHelper.myInstance = new ApiHelper();
+        }
+        return this.myInstance;
+    }
+
     constructor() {
         // this.api_token = null;
         // this.client = null;
@@ -11,10 +20,7 @@ class ApiHelper {
         this.user_id = 1; // TODO: Get current user's id
     }
 
-    /**
-     * Get all locations from the database.
-     * @returns {AxiosPromise}
-     */
+    // Get all locations from the database.
     listLocations = () => {
         return axios(
             {
@@ -24,10 +30,7 @@ class ApiHelper {
         );
     }
 
-    /**
-     * Get the user's own locations from the database.
-     * @returns {AxiosPromise}
-     */
+    // Get the user's own locations from the database.
     listUserLocations = () => {
         return axios(
             {
@@ -37,13 +40,7 @@ class ApiHelper {
         );
     }
 
-    /**
-     * Save a new location to the database.
-     * @param {string} name
-     * @param {number} longitude
-     * @param {number} latitude
-     * @returns {AxiosPromise}
-     */
+    // Save a new location to the database.
     createLocation = (name, longitude, latitude) => {
         const header = {
             userId: this.user_id
@@ -65,5 +62,3 @@ class ApiHelper {
         );
     }
 }
-
-export default ApiHelper;
