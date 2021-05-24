@@ -133,6 +133,78 @@
 
 		<profile>
 			<id>release</id>
+			<build>
+				<plugins>
+					<!-- Build React code -->
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<!-- Use the latest released version:
+                        https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+						<version>1.9.1</version>
+						<executions>
+
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>generate-resources</phase>
+							</execution>
+
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>prod build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<arguments>run build</arguments>
+									<npmInheritsProxyConfigFromMaven>false</npmInheritsProxyConfigFromMaven>
+								</configuration>
+							</execution>
+
+						</executions>
+						<configuration>
+							<nodeVersion>v15.6.0</nodeVersion>
+							<workingDirectory>src/main/ui</workingDirectory>
+						</configuration>
+					</plugin>
+
+					<!-- Copy compiled React code to target folder -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>3.0.0</version>
+						<executions>
+							<execution>
+								<id>copy compiled react code to target folder</id>
+								<phase>process-resources</phase>
+								<configuration>
+									<target>
+										<copy todir="${basedir}/target/classes/static">
+											<fileset dir="${basedir}/src/main/ui/build" includes="**/*" />
+										</copy>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 			<properties>
 				<activatedProperties>release</activatedProperties>
 			</properties>
@@ -217,4 +289,14 @@
 			</properties>
 		</profile>
 	</profiles>
+
+	<!-- Publishing package on GitHub -->
+	<!-- https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry -->
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub OWNER Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/eneskacan/TbtkMap</url>
+		</repository>
+	</distributionManagement>
 </project>
