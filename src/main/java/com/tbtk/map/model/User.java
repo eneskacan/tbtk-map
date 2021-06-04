@@ -17,7 +17,7 @@ public class User {
     private Long id;
 
     @NotNull
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @NotNull
