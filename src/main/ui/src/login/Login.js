@@ -1,22 +1,23 @@
 import {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import ApiHelper from "../helper/ApiHelper";
+import {useHistory} from "react-router-dom";
 
 let apiHelper = ApiHelper.getInstance();
 
 const Login = () => {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const history = useHistory();
 
     const login = async event => {
         event.preventDefault(); // don't refresh on submit
 
         // login
         const response = await apiHelper.confirmUser(username, password);
-        console.log(response.data);
 
         if (response.statusText === "OK") {
-            // redirect to map page
+            history.push("/map");
 
         } else if (response.statusText === "UNAUTHORIZED") {
             // wrong password
@@ -27,12 +28,12 @@ const Login = () => {
         }
     }
 
+
     const signup = async event => {
         event.preventDefault(); // don't refresh on submit
 
         // login
         const response = await apiHelper.createUser(username, password);
-        console.log(response.data);
 
         if (response.statusText === "CREATED") {
             // successful
@@ -44,35 +45,45 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <Form>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control
-                        type="username"
-                        placeholder="Enter username"
-                        onChange={event => setUsername(event.target.value)}
-                    />
-                </Form.Group>
+        <Form className='form'>
+            <div>
+                <div style={{marginTop: 10}}></div>
+                <div style={{marginRight: 1500}}>
+                    <div style={{marginLeft: 10}}>
+                        <Form>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label style={{marginWidth: '5px'}}>Username</Form.Label>
+                                <Form.Control
+                                    type="username"
+                                    placeholder="Enter username"
+                                    onChange={event => setUsername(event.target.value)}
+                                />
+                            </Form.Group>
+                            <div style={{marginTop: 10}}></div>
 
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Password"
-                        onChange={event => setPassword(event.target.value)}
-                    />
-                </Form.Group>
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    onChange={event => setPassword(event.target.value)}
+                                />
+                            </Form.Group>
 
-                <Button variant="primary" onClick={login} type="submit">
-                    Login
-                </Button>
+                            <Button variant="primary" onClick={login} type="submit">
+                                Login
+                            </Button>
+                            <div style={{marginTop: 5}}>
+                                <Button variant="primary" onClick={signup} type="submit">
+                                    Signup
+                                </Button>
+                            </div>
+                        </Form>
+                    </div>
+                </div>
+            </div>
+        </Form>
 
-                <Button variant="primary" onClick={signup} type="submit">
-                    Signup
-                </Button>
-            </Form>
-        </div>
     );
 }
 

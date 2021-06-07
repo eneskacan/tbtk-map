@@ -18,7 +18,7 @@ export default class ApiHelper {
         // this.api_token = null;
         // this.client = null;
         this.api_url = "/api/v1";
-        this.user_id = 1;
+        this.user_id = -1;
     }
 
     // Save a new user to the database.
@@ -53,8 +53,8 @@ export default class ApiHelper {
         );
 
         result.then(response => {
-            if (response.data.body > 0) {
-                this.user_id = response.data.body
+            if (response.statusText === "OK") {
+                this.user_id = response.data
             }
         });
 
