@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Button, Container, Form} from "react-bootstrap";
 import ApiHelper from "../helper/ApiHelper";
 import {useHistory} from "react-router-dom";
 
@@ -45,45 +45,37 @@ const Login = () => {
     }
 
     return (
-        <Form className='form'>
-            <div>
-                <div style={{marginTop: 10}}></div>
-                <div style={{marginRight: 1500}}>
-                    <div style={{marginLeft: 10}}>
-                        <Form>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label style={{marginWidth: '5px'}}>Username</Form.Label>
-                                <Form.Control
-                                    type="username"
-                                    placeholder="Enter username"
-                                    onChange={event => setUsername(event.target.value)}
-                                />
-                            </Form.Group>
-                            <div style={{marginTop: 10}}></div>
-
-                            <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    onChange={event => setPassword(event.target.value)}
-                                />
-                            </Form.Group>
-
-                            <Button variant="primary" onClick={login} type="submit">
-                                Login
-                            </Button>
-                            <div style={{marginTop: 5}}>
-                                <Button variant="primary" onClick={signup} type="submit">
-                                    Signup
-                                </Button>
-                            </div>
-                        </Form>
-                    </div>
-                </div>
-            </div>
-        </Form>
-
+        <Container>
+            <Form className='form'>
+                <Form>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Label style={{marginWidth: '5px'}}>Username</Form.Label>
+                        <Form.Control
+                            type="username"
+                            placeholder="Enter username"
+                            onChange={event => setUsername(event.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            placeholder="Password"
+                            onChange={event => setPassword(event.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Row>
+                        <Button variant="primary" onClick={login} type="submit">
+                            Login
+                        </Button>
+                        &nbsp;&nbsp;
+                        <Button variant="primary" onClick={signup} type="submit">
+                            Signup
+                        </Button>
+                    </Form.Row>
+                </Form>
+            </Form>
+        </Container>
     );
 }
 
