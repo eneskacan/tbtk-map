@@ -46,11 +46,12 @@ const Login = () => {
 
     return (
         <Container>
-            <Form className='form'>
+            <Form className='login-form'>
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label style={{marginWidth: '5px'}}>Username</Form.Label>
                         <Form.Control
+                            name="username"
                             type="username"
                             placeholder="Enter username"
                             onChange={event => setUsername(event.target.value)}
@@ -59,17 +60,18 @@ const Login = () => {
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
+                            name"password"
                             type="password"
                             placeholder="Password"
                             onChange={event => setPassword(event.target.value)}
                         />
                     </Form.Group>
                     <Form.Row>
-                        <Button variant="primary" onClick={login} type="submit">
+                        <Button name="login" variant="primary" onClick={login} type="submit">
                             Login
                         </Button>
                         &nbsp;&nbsp;
-                        <Button variant="primary" onClick={signup} type="submit">
+                        <Button name="signup" variant="primary" onClick={signup} type="submit">
                             Signup
                         </Button>
                     </Form.Row>
