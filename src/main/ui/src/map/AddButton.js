@@ -16,6 +16,7 @@ const AddButton = ({cursor, setCursor}) => {
             <Button
                 tooltip="Save a new location"
                 icon="fas fa-plus"
+                name="add"
                 rotate={false}
                 onClick={onClick} />
         </div>

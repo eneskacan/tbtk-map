@@ -60,7 +60,7 @@ const Login = () => {
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control
-                            name"password"
+                            name="password"
                             type="password"
                             placeholder="Password"
                             onChange={event => setPassword(event.target.value)}
