@@ -102,4 +102,29 @@ export default class ApiHelper {
             }
         );
     }
+
+    //delete locations from to the database
+    deleteLocation = (locationId) => {
+        return axios(
+            {
+                method: 'delete',
+                url: this.api_url + "/locations/" + locationId
+            }
+        );
+    }
+
+    //update location name from to the database
+    updateLocation = (locationId, updatedName) => {
+        const body = {
+            name: updatedName
+        }
+
+        return axios(
+            {
+                method: 'put',
+                url: this.api_url + "/locations/" + locationId,
+                data: body
+            }
+        );
+    }
 }
